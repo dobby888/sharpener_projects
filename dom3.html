@@ -26,28 +26,11 @@
       <li class="list-group-item">Item 2</li>
       <li class="list-group-item">Item 3</li>
       <li class="list-group-item">Item 4</li>
-      <li>Item 5</li>
     </ul>
+    <span></span>
    </div>
   </div>
 
-  <script>
-    var items=document.getElementsByClassName(('list-group-item'));
-    console.log(items);
-    console.log(items[1]);
-    items[0].textContent='hello 2'
-    items[1].style.fontWeight='bold';
-    for(var i=0;i<items.length;i=i+2){
-        items[i].style.backgroundColor='#4f4f4f'
-    }
-    var li=document.getElementsByTagName(('li'));
-    console.log(li);
-    console.log(li[1]);
-    li[2].textContent='hello 5'
-    li[1].style.fontWeight='bold'; 
-    for(var i=1;i<li.length;i=i+2){
-        li[i].style.backgroundColor='skyblue'
-    }
-    </script>
+  <script src="doms1.js"></script>
 </body>
 </html>
