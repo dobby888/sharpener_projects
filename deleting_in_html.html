@@ -21,65 +21,76 @@
     </div>
   </header>
   <div class="container">
-   <div id="main" class="card card-body">
-    <h2 class="title">Add Items</h2>
-    <form id="addForm" class="form-inline mb-3">
-      <input type="text" class="form-control mr-2" id="item">
-      <input type="submit" class="btn btn-dark" value="Submit">
-    </form>
-    <h2 class="title">Items</h2>
-    <ul id="items" class="list-group">
-      <li class="list-group-item">Item 1 <button class="btn btn-danger btn-sm float-right delete">X</button></li>
-      <li class="list-group-item">Item 2 <button class="btn btn-danger btn-sm float-right delete">X</button></li>
-      <li class="list-group-item">Item 3 <button class="btn btn-danger btn-sm float-right delete">X</button></li>
-      <li class="list-group-item">Item 4 <button class="btn btn-danger btn-sm float-right delete">X</button></li>
-    </ul>
-   </div>
+    <div id="main" class="card card-body">
+      <h2 class="title">Add Items</h2>
+      <form id="addForm" class="form-inline mb-3">
+        <input type="text" class="form-control mr-2" id="item" placeholder="Item name">
+        <input type="text" class="form-control mr-2" id="description" placeholder="Item description">
+        <input type="submit" class="btn btn-dark" value="Submit">
+      </form>
+      <h2 class="title">Items</h2>
+      <ul id="items" class="list-group">
+        <li class="list-group-item">Item 1 <span class="description">Description 1</span> <button class="btn btn-danger btn-sm float-right delete">X</button> <button class="btn btn-primary btn-sm float-right mr-2 edit">Edit</button></li>
+        <li class="list-group-item">Item 2 <span class="description">Description 2</span> <button class="btn btn-danger btn-sm float-right delete">X</button> <button class="btn btn-primary btn-sm float-right mr-2 edit">Edit</button></li>
+        <li class="list-group-item">Item 3 <span class="description">Description 3</span> <button class="btn btn-danger btn-sm float-right delete">X</button> <button class="btn btn-primary btn-sm float-right mr-2 edit">Edit</button></li>
+        <li class="list-group-item">Item 4 <span class="description">Description 4</span> <button class="btn btn-danger btn-sm float-right delete">X</button> <button class="btn btn-primary btn-sm float-right mr-2 edit">Edit</button></li>
+      </ul>
+    </div>
   </div>
 
   <script>
     var form = document.getElementById('addForm');
     var itemlist = document.getElementById('items');
     var filter = document.getElementById('filter');
-  
+
     // form submit event
     form.addEventListener('submit', addItem);
-  
+
     // delete event
     itemlist.addEventListener('click', removeItem);
-  
-   
+
+    // filter event
+    filter.addEventListener('keyup', filterItems);
+
     // add item
     function addItem(e) {
       e.preventDefault();
-  
+
       // get input value
       var newitem = document.getElementById('item').value;
-  
+      var description = document.getElementById('description').value;
+
       // create new li element
       var li = document.createElement('li');
-  
+
       // add class
       li.className = 'list-group-item';
-  
-      // add text node with input value
-      li.appendChild(document.createTextNode(newitem));
-  
+
+      // add text node with input value(name+description)
+      li.appendChild(document.createTextNode(newitem + ' '));
+
+      // add item description below item name
+      var span = document.createElement('span');
+      span.className = 'description';
+      span.appendChild(document.createTextNode(description));
+      li.appendChild(span);
+
       // create delete button element
       var deletebtn = document.createElement('button');
       deletebtn.className = 'btn btn-danger btn-sm float-right delete';
       deletebtn.appendChild(document.createTextNode('X'));
       li.appendChild(deletebtn);
-  
+
       // create edit button element
       var editbtn = document.createElement('button');
       editbtn.className = 'btn btn-primary btn-sm float-right mr-2 edit';
       editbtn.appendChild(document.createTextNode('Edit'));
       li.appendChild(editbtn);
+
       // append li to list
       itemlist.appendChild(li);
     }
-  
+
     // remove item
     function removeItem(e) {
       if (e.target.classList.contains('delete')) {
@@ -89,6 +100,25 @@
         }
       }
     }
+
+    // filter items
+    function filterItems(e) {
+      // convert text to lowercase
+      var text = e.target.value.toLowerCase();
+      // get list of li elements
+      var items = itemlist.getElementsByTagName('li');
+      Array.from(items).forEach(function (item) {
+        var itemName = item.firstChild.textContent.toLowerCase();
+        var itemDescription = item.querySelector('.description').textContent.toLowerCase();
+        // check if the text is found in either item name or description
+        if (itemName.indexOf(text) !== -1 || itemDescription.indexOf(text) !== -1) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
   </script>
-  </body>
+</body>
 </html>
+
