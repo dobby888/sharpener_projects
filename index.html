@@ -118,6 +118,7 @@ header {
     var nameinput = document.getElementById('name');//getting references to form ele
     var emailinput = document.getElementById('email');
     var form = document.getElementById('my-form');
+    var userlist=document.getElementById('users');//adding inusers variable to store the users list
     form.addEventListener('submit',store)//add event listener to form submit
     function store(e){
       e.preventDefault();//to prevent default form submission
@@ -125,9 +126,20 @@ header {
         name:nameinput.value,//getting values entered by the users
         email:emailinput.value
       };
-      localStorage.setItem('obj',JSON.stringify(obj));
-      nameinput.value='';//resets the inputs fields to be blank after submission
-      emailinput.value='';
+      // Get the existing users from local storage or initialize as an empty array
+      var users = JSON.parse(localStorage.getItem('userlist') || '[]');//going to store the details in an array
+      // Add the new user details to the array
+      users.push(obj)
+      // Store the updated user array in local storage
+      localStorage.setItem('userlist', JSON.stringify(users));
+      nameinput.value = ''; // Clear the input fields after submission
+      emailinput.value = '';
+      // Update the users list
+      users.forEach(user => {
+      const li = document.createElement('li');
+      li.textContent = `Name: ${user.name}, Email: ${user.email}`;
+      userlist.appendChild(li);
+      });
     }; 
   </script>
 </body>
