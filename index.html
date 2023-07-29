@@ -121,10 +121,11 @@ header {
     form.addEventListener('submit',store)//add event listener to form submit
     function store(e){
       e.preventDefault();//to prevent default form submission
-      var namevalue=nameinput.value;//getting values entered by user
-      var emailvalue=emailinput.value;
-      localStorage.setItem('name',namevalue);//storing user details in local storage
-      localStorage.setItem('email',emailvalue);
+      var obj={
+        name:nameinput.value,//getting values entered by the users
+        email:emailinput.value
+      };
+      localStorage.setItem('obj',JSON.stringify(obj));
       nameinput.value='';//resets the inputs fields to be blank after submission
       emailinput.value='';
     }; 
