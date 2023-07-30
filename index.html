@@ -150,6 +150,11 @@ header {
         dltbtn.addEventListener('click', ()=>dltuser(index));
         li.appendChild(dltbtn);
         userlist.appendChild(li);
+        var editbtn = document.createElement('button');
+        editbtn.textContent = 'Edit';
+        editbtn.className = 'btn btn-primary btn-sm';
+        editbtn.addEventListener('click', () => editUser(index));
+        li.appendChild(editbtn);
       });
     }
     function dltuser(index){//function to delete a user entry
@@ -158,7 +163,18 @@ header {
       localStorage.setItem('userlist',JSON.stringify(users));
       updateUserList();//update user list in UI
     }
-    updateUserList
+    function editUser(index) {
+      var users = JSON.parse(localStorage.getItem('userlist') || '[]');
+      var user = users[index];
+      nameinput.value = user.name;
+      emailinput.value = user.email;
+
+      // Remove the edited user from the list
+      users.splice(index, 1);
+      localStorage.setItem('userlist', JSON.stringify(users));
+      updateUserList();
+    }
+    updateUserList();
   </script>
 </body>
 </html>
