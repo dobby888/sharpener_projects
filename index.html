@@ -107,11 +107,12 @@ header {
 
     <ul id="users"></ul>
 
-     <ul class="items">
+   <!--  <ul class="items">
       <li class="item">Item 1</li>
       <li class="item">Item 2</li>
       <li class="item">Item 3</li>
     </ul> 
+  -->
   </section>
 
   <script>
@@ -135,13 +136,31 @@ header {
       nameinput.value = ''; // Clear the input fields after submission
       emailinput.value = '';
       // Update the users list
-      users.forEach(user => {
-      const li = document.createElement('li');
-      li.textContent = `Name: ${user.name}, Email: ${user.email}`;
-      userlist.appendChild(li);
-      });
+      updateUserList();//update the users list in the UI
     }; 
+    function updateUserList(){
+      var users=JSON.parse(localStorage.getItem('userlist') || '[]');
+      userlist.innerHTML='';//clears the existing list
+      users.forEach((user, index)=>{
+        var li=document.createElement('li');
+        li.textContent=`Name: ${user.name}, Email: ${user.email}`;
+        var dltbtn=document.createElement('button');//creating the delete button
+        dltbtn.textContent='Delete';
+        dltbtn.className='btn btn-danger btn-sm';
+        dltbtn.addEventListener('click', ()=>dltuser(index));
+        li.appendChild(dltbtn);
+        userlist.appendChild(li);
+      });
+    }
+    function dltuser(index){//function to delete a user entry
+      var users=JSON.parse(localStorage.getItem('userlist') || '[]');
+      users.splice(index,1);//remove users of specified index
+      localStorage.setItem('userlist',JSON.stringify(users));
+      updateUserList();//update user list in UI
+    }
+    updateUserList
   </script>
 </body>
 </html>
+
 
